@@ -1,9 +1,9 @@
 # smk_rnaseq - A Snakemake-based workflow for RNAseq data processing
 
 This workflow was used for RNAseq data processing in the following studies:
-> * Gorniak et al., (2023)  **Different lanthanide elements induce strong gene expression changes in a lanthanide-accumulating methylotroph. ** _biorxiv_ [LINK](https://www.biorxiv.org/content/10.1101/2023.03.06.530795v1)
-> * Wegner et al., (2021) ** Extracellular and Intracellular Lanthanide Accumulation in the Methylotroph Beijerinckiaceae Bacterium RH AL1. ** _Appl Environ Microbiol_ 87:e03144-20 [LINK](https://journals.asm.org/doi/full/10.1128/AEM.03144-20?rfr_dat=cr_pub++0pubmed&url_ver=Z39.88-2003&rfr_id=ori%3Arid%3Acrossref.org)
-> * Wegner et al., (2020) **  Lanthanide-Dependent Methylotrophs of the Family Beijerinckiaceae: Physiological and Genomic Insights. ** _Appl Environ Microbiol_ 86:e01830-19
+> * Gorniak et al., (2023)  **Different lanthanide elements induce strong gene expression changes in a lanthanide-accumulating methylotroph.** _biorxiv_ [LINK](https://www.biorxiv.org/content/10.1101/2023.03.06.530795v1)
+> * Wegner et al., (2021) **Extracellular and Intracellular Lanthanide Accumulation in the Methylotroph Beijerinckiaceae Bacterium RH AL1.** _Appl Environ Microbiol_ 87:e03144-20 [LINK](https://journals.asm.org/doi/full/10.1128/AEM.03144-20?rfr_dat=cr_pub++0pubmed&url_ver=Z39.88-2003&rfr_id=ori%3Arid%3Acrossref.org)
+> * Wegner et al., (2020) **Lanthanide-Dependent Methylotrophs of the Family Beijerinckiaceae: Physiological and Genomic Insights.** _Appl Environ Microbiol_ 86:e01830-19
 > [LINK](https://journals.asm.org/doi/10.1128/AEM.01830-19?url_ver=Z39.88-2003&rfr_id=ori:rid:crossref.org&rfr_dat=cr_pub%20%200pubmed)
 
 ## Needed/used software
@@ -16,7 +16,7 @@ The workflow is based on the following tools:
 
 The separate installation of the tools is not necessary, they are installed 'on the fly' (see _Usage_ below).
 
-[`Snakemake`](https://snakemake.github.io/) should be installed as outlined in its [documentation](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) for instance using [`conda`](https://docs.conda.io/en/latest/miniconda.html)/[`mamba`](https://github.com/conda-forge/miniforge#mambaforge). It is recommended to create a dedicated [`conda`] environment for Snakemake.
+[`Snakemake`](https://snakemake.github.io/) should be installed as outlined in its [documentation](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) for instance using [`conda`](https://docs.conda.io/en/latest/miniconda.html)/[`mamba`](https://github.com/conda-forge/miniforge#mambaforge). It is recommended to create a dedicated `conda` environment for Snakemake.
 
 ## Description of the workflow
 Paired-end sequencing data (`stored in /data`) is first subjected to quality-control and adapter-trimming using `bbduk`. Quality reports are written using `fastQC` before and after trimming. mRNA-derived read pairs are identified by querying QCed reads against SSU and LSU databases using `SortMeRNA`. Next, mRNA-derived sequenced are mapped onto a reference genome with `bbmap`. Readcounts per feature (=CDS) are determined through `featureCounts`. The below DAG graph outlines the different processes of the workflow, exemplarily for two file pairs La.1* and La.2*.
@@ -40,10 +40,9 @@ Paired sequence data (R{1,2}.fastq.gz) should be stored under `/data`. The repos
 
 From the root directory of the workflow, processing the data can then be started.
 ```
-cd resources
-wget https://zenodo.org/record/8073631/files/smk_rnaseq_sortmerna_DBs.zip
-unzip smk_rnaseq_sortmerba_DBs.zip
-cd ..
+# --use-conda makes sure that needed tools are installed based
+# on the requirements specified in the respective *.yaml in /envs
+snakemake  --use-conda
 ```
 Output from the different steps of the workflow are stored in `/results` and `/logs`.
 
