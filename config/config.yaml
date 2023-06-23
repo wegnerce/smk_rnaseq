@@ -1,0 +1,24 @@
+rawdata-dir: data
+sample-file: config/samples.tsv
+# adapter.fa needed by bbduk during QC and trimming
+adapter-file: resources/adapters.fa
+ 
+SORTMERNA:
+  silva_16s_bac_db: "resources/rRNA_databases/silva-bac-16s-id90.fasta"
+  silva_16s_bac_idx: "resources/index/silva-bac-16s-db"
+  silva_23s_bac_db: "resources/rRNA_databases/silva-bac-23s-id98.fasta"
+  silva_23s_bac_idx: "resources/index/silva-bac-23s-db"
+  
+MAPPING:
+  # reference genome + .saf filed needed during mapping
+  ref_genome: resources/RHAL1_chromosome_plasmid.fa
+
+COUNTING:
+  # .saf file needed by featureCounts
+  ref_saf: resources/RHAL1_chromosome_plasmid.saf
+  
+Fastq:
+  suffix_R1: R1
+  suffix_R2: R2
+  file_extension: fastq.gz
+

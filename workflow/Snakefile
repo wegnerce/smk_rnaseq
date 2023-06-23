@@ -1,0 +1,75 @@
+###############################################################################
+# @author:      Carl-Eric Wegner
+# @affiliation: Küsel Lab - Aquatic Geomicrobiology
+#              Friedrich Schiller University of Jena
+#
+#              carl-eric.wegner@uni-jena.de
+#              https://github.com/wegnerce
+#              https://www.exploringmicrobes.science
+###############################################################################
+
+###############################################################################
+# needed packages
+###############################################################################
+import pandas as pd
+import os
+
+###############################################################################
+# link to config file
+###############################################################################
+configfile: "config/config.yaml"
+
+###############################################################################
+# needed resources
+###############################################################################
+REF_GENOME   = config["MAPPING"]["ref_genome"]
+ADAPTER      = config["adapter-file"]
+REF_SAF      = config["COUNTING"]["ref_saf"]
+SILVA_16S_BAC_DB   = config["SORTMERNA"]["silva_16s_bac_db"]
+SILVA_16S_BAC_IDX  = config["SORTMERNA"]["silva_16s_bac_idx"]
+SILVA_23S_BAC_DB   = config["SORTMERNA"]["silva_23s_bac_db"]
+SILVA_23S_BAC_IDX  = config["SORTMERNA"]["silva_23s_bac_idx"]
+
+###############################################################################
+# relevant parameters input files
+###############################################################################
+r1_suffix = config["Fastq"]["suffix_R1"]
+r2_suffix = config["Fastq"]["suffix_R2"]
+PAIRS = [r1_suffix, r2_suffix]
+
+###############################################################################
+# read sample names from samples.tsv
+###############################################################################
+SAMPLES = pd.read_table(config["sample-file"], header=0, sep="\t", index_col=0)
+raw_data_dir = config["rawdata-dir"]
+
+###############################################################################
+# bash safe mode
+###############################################################################
+shell.executable("/bin/bash")
+shell.prefix("set -euo pipefail; ")
+
+###############################################################################
+
+rule all:
+	input:
+		# counting
+		"results/04_COUNTS/readcounts_featureCounts.txt",
+		# mapping
+		expand("results/03_MAPPED/{sample}_mapped_sorted.bam", sample=SAMPLES.index),		
+		# filtering
+		expand("results/02_FILTERED/{sample}_mRNA_{pair}.fastq", sample=SAMPLES.index, pair = PAIRS),   
+        # trimming
+		expand("results/01_TRIMMED/{sample}_trimmed_{pair}.fastq", sample=SAMPLES.index, pair = PAIRS),
+        # QC
+		expand("logs/fastqc/raw/{sample}_{pair}_fastqc.html", sample=SAMPLES.index, pair = PAIRS),
+        expand("logs/fastqc/trimmed/{sample}_trimmed_{pair}_fastqc.html", sample=SAMPLES.index, pair = PAIRS),
+
+###############################################################################
+# needed rules
+###############################################################################
+include: "rules/qc.smk"
+include: "rules/sortmerna.smk"
+include: "rules/mapping.smk"
+include: "rules/featurecounts.smk"
+	
