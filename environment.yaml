@@ -1,9 +1,5 @@
 channels:
   - bioconda
 dependencies:
-  - fastqc
-  - bbmap
-  - sortmerna=2.1b
-  - subread
   - python > 3
   - pandas

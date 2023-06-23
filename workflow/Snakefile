@@ -64,6 +64,7 @@ rule all:
         # QC
 		expand("logs/fastqc/raw/{sample}_{pair}_fastqc.html", sample=SAMPLES.index, pair = PAIRS),
         expand("logs/fastqc/trimmed/{sample}_trimmed_{pair}_fastqc.html", sample=SAMPLES.index, pair = PAIRS),
+	conda: "environment.yaml"
 
 ###############################################################################
 # needed rules
