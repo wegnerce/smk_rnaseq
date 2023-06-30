@@ -29,7 +29,9 @@ rule sortmerna_filter_mRNA:
 		read2="results/02_FILTERED/{sample}_mRNA_" + PAIRS[1] + ".fastq",
 	log: 
 		"logs/sortmerna/{sample}_stats_filtering.txt",
-	conda: "envs/sortmerna.yaml"
+	conda: "../envs/sortmerna.yaml"
+	resources:
+         mem_mb="32000MB"
 	params:
 		merged="results/02_FILTERED/{sample}_merged.fastq",
 		merged_mRNA="results/02_FILTERED/{sample}_merged_non_rRNA",

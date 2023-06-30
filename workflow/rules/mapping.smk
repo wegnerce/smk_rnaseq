@@ -17,7 +17,7 @@ rule bbmap_mapping:
 		mapped="results/03_MAPPED/{sample}_mapped.bam",
 		mapped_sorted="results/03_MAPPED/{sample}_mapped_sorted.bam",
 		mapping_stats="logs/bbmap/{sample}_stats_mapping.txt",
-	conda: "envs/bbmap.yaml"
+	conda: "../envs/bbmap.yaml"
 	params:
 		ref_genome=REF_GENOME
 	threads: 4

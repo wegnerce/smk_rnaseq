@@ -14,7 +14,7 @@ rule featurecounts_readcounts:
 		bams=expand("results/03_MAPPED/{sample}_mapped_sorted.bam", sample=SAMPLES.index),
 	output:
 		readcounts="results/04_COUNTS/readcounts_featureCounts.txt",
-	conda: "envs/featurecounts.yaml"
+	conda: "../envs/featurecounts.yaml"
 	params:
 		saf=REF_SAF
 	threads: 4

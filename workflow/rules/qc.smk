@@ -17,7 +17,7 @@ rule fastqc_raw:
         zip ="logs/fastqc/raw/{sample}_{pair}_fastqc.zip",
     resources:
          mem_mb="2000MB"
-    conda: "envs/fastqc.yaml"
+    conda: "../envs/fastqc.yaml"
     threads: 2
     shell:
         """
@@ -33,7 +33,7 @@ rule bbduk_trim:
 		read1="results/01_TRIMMED/{sample}_trimmed_" + PAIRS[0] + ".fastq",
 		read2="results/01_TRIMMED/{sample}_trimmed_" + PAIRS[1] + ".fastq",
 		trim_stats="logs/bbduk/{sample}_stats_QC.txt",
-	conda: "envs/bbmap.yaml"
+	conda: "../envs/bbmap.yaml"
 	params:
 		adapter=ADAPTER,
 	threads: 4
@@ -51,7 +51,7 @@ rule fastqc_trim:
         zip ="logs/fastqc/trimmed/{sample}_trimmed_{pair}_fastqc.zip",
     resources:
          mem_mb="2000MB"
-    conda: "envs/fastqc.yaml"
+    conda: "../envs/fastqc.yaml"
     threads: 2
     shell:
         """
