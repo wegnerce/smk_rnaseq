@@ -44,12 +44,6 @@ SAMPLES = pd.read_table(config["sample-file"], header=0, sep="\t", index_col=0)
 raw_data_dir = config["rawdata-dir"]
 
 ###############################################################################
-# bash safe mode
-###############################################################################
-shell.executable("/bin/bash")
-shell.prefix("set -euo pipefail; ")
-
-###############################################################################
 
 rule all:
 	input:
