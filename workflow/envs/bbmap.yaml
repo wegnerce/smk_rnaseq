@@ -1,5 +1,6 @@
 channels:
   - bioconda
+  - conda-forge
 dependencies:
-  - bbmap
-  - samtools
+  - bbmap=39.06
+  - samtools=1.21

@@ -22,13 +22,11 @@ configfile: "config/config.yaml"
 ###############################################################################
 # needed resources
 ###############################################################################
-REF_GENOME   = config["MAPPING"]["ref_genome"]
-ADAPTER      = config["adapter-file"]
-REF_SAF      = config["COUNTING"]["ref_saf"]
-SILVA_16S_BAC_DB   = config["SORTMERNA"]["silva_16s_bac_db"]
-SILVA_16S_BAC_IDX  = config["SORTMERNA"]["silva_16s_bac_idx"]
-SILVA_23S_BAC_DB   = config["SORTMERNA"]["silva_23s_bac_db"]
-SILVA_23S_BAC_IDX  = config["SORTMERNA"]["silva_23s_bac_idx"]
+REF_GENOME       = config["MAPPING"]["ref_genome"]
+ADAPTER          = config["adapter-file"]
+REF_SAF          = config["COUNTING"]["ref_saf"]
+SILVA_16S_BAC_DB = config["SORTMERNA"]["silva_16s_bac_db"]
+SILVA_23S_BAC_DB = config["SORTMERNA"]["silva_23s_bac_db"]
 
 ###############################################################################
 # relevant parameters input files
@@ -46,18 +44,20 @@ raw_data_dir = config["rawdata-dir"]
 ###############################################################################
 
 rule all:
-	input:
-		# counting
-		"results/04_COUNTS/readcounts_featureCounts.txt",
-		# mapping
-		expand("results/03_MAPPED/{sample}_mapped_sorted.bam", sample=SAMPLES.index),		
-		# filtering
-		expand("results/02_FILTERED/{sample}_mRNA_{pair}.fastq", sample=SAMPLES.index, pair = PAIRS),   
+    input:
+        # aggregated QC report
+        "results/00_QC/multiqc_report.html",
+        # counting
+        "results/04_COUNTS/readcounts_featureCounts.txt",
+        # mapping
+        expand("results/03_MAPPED/{sample}_mapped_sorted.bam", sample=SAMPLES.index),
+        # filtering
+        expand("results/02_FILTERED/{sample}_mRNA_{pair}.fastq", sample=SAMPLES.index, pair=PAIRS),
         # trimming
-		expand("results/01_TRIMMED/{sample}_trimmed_{pair}.fastq", sample=SAMPLES.index, pair = PAIRS),
+        expand("results/01_TRIMMED/{sample}_trimmed_{pair}.fastq", sample=SAMPLES.index, pair=PAIRS),
         # QC
-		expand("logs/fastqc/raw/{sample}_{pair}_fastqc.html", sample=SAMPLES.index, pair = PAIRS),
-        expand("logs/fastqc/trimmed/{sample}_trimmed_{pair}_fastqc.html", sample=SAMPLES.index, pair = PAIRS),
+        expand("logs/fastqc/raw/{sample}_{pair}_fastqc.html", sample=SAMPLES.index, pair=PAIRS),
+        expand("logs/fastqc/trimmed/{sample}_trimmed_{pair}_fastqc.html", sample=SAMPLES.index, pair=PAIRS),
 
 ###############################################################################
 # needed rules
@@ -66,4 +66,3 @@ include: "rules/qc.smk"
 include: "rules/sortmerna.smk"
 include: "rules/mapping.smk"
 include: "rules/featurecounts.smk"
-	

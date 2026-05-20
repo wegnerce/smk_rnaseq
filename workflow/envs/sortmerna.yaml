@@ -1,4 +1,5 @@
 channels:
   - bioconda
+  - conda-forge
 dependencies:
-  - sortmerna=2.1b
+  - sortmerna=4.3.7
