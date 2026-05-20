@@ -51,8 +51,8 @@ rule sortmerna_filter_mRNA:
             --fastx --out2 --paired_out \
             --threads {threads} \
             -v 2> {log}
-        mv {params.other_prefix}_fwd.fastq {output.read1}
-        mv {params.other_prefix}_rev.fastq {output.read2}
+        mv {params.other_prefix}_fwd.f*q {output.read1}
+        mv {params.other_prefix}_rev.f*q {output.read2}
         rm -rf {params.workdir}
-        rm -f {params.rRNA_prefix}_fwd.fastq {params.rRNA_prefix}_rev.fastq
+        rm -f {params.rRNA_prefix}_fwd.f*q {params.rRNA_prefix}_rev.f*q
         """
