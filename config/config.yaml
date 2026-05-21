@@ -12,10 +12,21 @@ MAPPING:
   ref_genome: resources/RHAL1_chromosome_plasmid.fa
 
 COUNTING:
-  # .saf file needed by featureCounts
+  # Provide ref_saf OR ref_gff3, not both.
+  # ref_saf: path to a pre-built SAF file (used directly).
+  # ref_gff3: path to a GFF3 annotation; SAF is generated on-the-fly.
+  # If neither is set the pipeline exits with an error.
   ref_saf: resources/RHAL1_chromosome_plasmid.saf
+  ref_gff3:
 
 Fastq:
   suffix_R1: R1
   suffix_R2: R2
   file_extension: fastq.gz
+
+BBDUK:
+  # minlen: discard reads shorter than this after trimming
+  # set to ~50% of expected read length (e.g. 75 for 150bp, 50 for 100bp, 150 for 250bp)
+  minlen: 75
+  # trimq: quality score threshold for trimming (Phred)
+  trimq: 20
