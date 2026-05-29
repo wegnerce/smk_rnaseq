@@ -1,4 +1,4 @@
-./.workflow_backup_20260520/
-./config/config_backup_20260520.yaml
-./logs/
-./.snakemake/
+.workflow_backup_20260520/
+config/config_backup_20260520.yaml
+logs/
+.snakemake/
