@@ -73,33 +73,22 @@ The directory structure of the workflow is shown below:
 │   └── RHAL1_chromosome_plasmid.saf
 ├── results
 ├── smk_rnaseq.svg
-├── workflow
-│   ├── envs
-│   │   ├── bbmap.yaml
-│   │   ├── fastqc.yaml
-│   │   ├── featurecounts.yaml
-│   │   ├── multiqc.yaml
-│   │   └── sortmerna.yaml
-│   ├── rules
-│   │   ├── featurecounts.smk
-│   │   ├── mapping.smk
-│   │   ├── qc.smk
-│   │   └── sortmerna.smk
-│   ├── scripts
-│   │   └── gff3_to_saf.py
-│   └── Snakefile
-└── workflow_backup_20260520
+└── workflow
     ├── envs
     │   ├── bbmap.yaml
     │   ├── fastqc.yaml
     │   ├── featurecounts.yaml
+    │   ├── multiqc.yaml
     │   └── sortmerna.yaml
     ├── rules
     │   ├── featurecounts.smk
     │   ├── mapping.smk
     │   ├── qc.smk
     │   └── sortmerna.smk
+    ├── scripts
+    │   └── gff3_to_saf.py
     └── Snakefile
+
 ```
 Output from the different steps of the workflow are stored in `/results` and `/logs`. 
 
