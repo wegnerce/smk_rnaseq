@@ -14,14 +14,13 @@ import sys
 import argparse
 
 def parse_gene_id(attributes):
-    """Extract gene ID from GFF3 attributes column.
-
-    Tries locus_tag, ID, and Name in order of preference.
-    Falls back to the last key=value pair if none are found.
-    In the original version, the gene ID was parsed from the 
-    "locus_tag" attribute, but this is not guaranteed to be 
-    present in all GFF3 files, so we try multiple keys.
-    """
+    # Extract geneID from .gff3 attributes column.
+    # 
+    # Looks for locus_tag, ID, and Name. Used the last 
+    # key=value pair if none are found (PLAN B).
+    # In the original version, the geneID was parsed from the
+    # "locus_tag" attribute, however, this is not always
+    # present in .gff3 files.
     attr_dict = {}
     for attr in attributes.strip().split(";"):
         if "=" in attr:
@@ -32,10 +31,11 @@ def parse_gene_id(attributes):
         if key in attr_dict:
             return attr_dict[key]
 
-    # PLAN B: return the value of the last key=value pair, 
-    # if any attributes are present. This is a bit of a hack, 
-    # but it allows us to recover at least some gene IDs from 
-    # GFF3 files that don't follow the expected scheme
+    # PLAN B: 
+    # Return the value of the last key=value pair, 
+    # if any attributes are present. This is not ideal, 
+    # but it allows us to recover at least some geneIDs from 
+    # .gff3 files that don't follow the expected scheme
     if attr_dict:
         return list(attr_dict.values())[-1]
 
@@ -73,8 +73,8 @@ def main():
         description="Convert a .gff3 annotation file to .saf format for featureCounts."
                     "»» https://subread.sourceforge.net/featureCounts.html ««"
     )
-    parser.add_argument("gff3", help="Input GFF3 file")
-    parser.add_argument("saf", help="Output SAF file")
+    parser.add_argument("gff3", help="Input .gff3 file")
+    parser.add_argument("saf", help="Output .saf file")
     args = parser.parse_args()
 
     try:
