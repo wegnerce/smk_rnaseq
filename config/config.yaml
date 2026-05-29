@@ -1,10 +1,15 @@
+# Configuration file for smk_rnaseq
+# This file contains parameters and paths used/needed by
+# the workflow.
+
 rawdata-dir: data
 sample-file: config/samples.tsv
-# adapter.fa needed by bbduk during QC and trimming
+# adapter.fa required resource for QC and trimming using bbduk
 adapter-file: resources/adapters.fa
 
 SORTMERNA:
-  # SortMeRNA 4.x builds indexes on-the-fly; only the FASTA databases are needed
+  # SortMeRNA 4.x only needs the .fasta files, index files are generated
+  # as needed 
   silva_16s_bac_db: "resources/rRNA_databases/silva-bac-16s-id90.fasta"
   silva_23s_bac_db: "resources/rRNA_databases/silva-bac-23s-id98.fasta"
 
@@ -12,9 +17,12 @@ MAPPING:
   ref_genome: resources/RHAL1_chromosome_plasmid.fa
 
 COUNTING:
-  # Provide ref_saf OR ref_gff3, not both.
-  # ref_saf: path to a pre-built SAF file (used directly).
-  # ref_gff3: path to a GFF3 annotation; SAF is generated on-the-fly.
+  # featureCounts relies on a .saf file for counting
+  # The .saf file can be provided directly (ref_saf) or generated
+  # from a .gff3 annotation file (--> scripts/gff3_to_saf.py)
+  # 
+  # ref_saf: path to a pre-built .saf file
+  # ref_gff3: path to a .gff3 annotation file
   # If neither is set the pipeline exits with an error.
   ref_saf: resources/RHAL1_chromosome_plasmid.saf
   ref_gff3:
@@ -23,10 +31,18 @@ Fastq:
   suffix_R1: R1
   suffix_R2: R2
   file_extension: fastq.gz
+  # paired: true for paired-end data, false for single-end
+  # added as our local CF often provides testsequencing data
+  # as single-end 
+  paired: true
 
 BBDUK:
   # minlen: discard reads shorter than this after trimming
-  # set to ~50% of expected read length (e.g. 75 for 150bp, 50 for 100bp, 150 for 250bp)
+  # rule of thumb (tends to work OK): ~50% of expected read length 
   minlen: 75
   # trimq: quality score threshold for trimming (Phred)
   trimq: 20
+  # force_trim_left: hard-clip N bases from the 5' end of every read (0 = disabled)
+  # random hexamer priming introduces a base composition bios during library prep
+  # this should be adjusted as needed based on the initial QC
+  force_trim_left: 0
